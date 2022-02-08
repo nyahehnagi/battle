@@ -7,9 +7,10 @@ require 'capybara'
 require 'capybara/rspec'
 require 'rspec'
 
+# tell Capybara about the app class
+Capybara.app = Battle
 
-# tell Capybara about our app class
-Capybara.app = MyApp
+
 
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
