@@ -4,10 +4,7 @@
 
 feature "Player 2 hitpoints" do
   scenario 'show hitpoints for player 2' do
-    visit '/'
-    fill_in :player_name_1, with: "Bob"
-    fill_in :player_name_2, with: "Fred"
-    click_button 'Enter Gladiators'
+    sign_in_and_play
     expect(page).to have_content 'Fred has 20 hitpoints'
   end
 end
