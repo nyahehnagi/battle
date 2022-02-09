@@ -1,11 +1,16 @@
 require 'sinatra'
 require "sinatra/reloader" if development?
 
+require File.join(File.dirname(__FILE__), 'lib', 'player.rb')
+
 class Battle < Sinatra::Base
 
   configure :development do
     register Sinatra::Reloader
   end
+  
+  $player_one = nil
+  $player_two = nil
   
   enable :sessions
 
@@ -14,24 +19,34 @@ class Battle < Sinatra::Base
   end
 
   post '/names' do
-    session[:player_name_1] = params[:player_name_1]
-    session[:player_name_2] = params[:player_name_2]
+    # session[:player_name_1] = params[:player_name_1]
+    # session[:player_name_2] = params[:player_name_2]
+    $player_one = Player.new(params[:player_name_1])
+    $player_two = Player.new(params[:player_name_2])
+
     redirect('/play')
   end
 
   get '/play' do
-    @player_one = session[:player_name_1] 
-    @player_two = session[:player_name_2] 
+    # @player_one = session[:player_name_1] 
+    # @player_two = session[:player_name_2] 
+    @player_one = $player_one.name
+    @player_two = $player_two.name
     erb(:play)
   end
 
+  # Should have used a get here as not changing the state of the program
+  # keeping it as Post for time being as I feel there's an opportunity for some better
+  # logic.. regarding how the attack information is rendered
   post '/attack' do
     redirect('/attack')
   end
 
   get '/attack' do
-    @player_one = session[:player_name_1] 
-    @player_two = session[:player_name_2] 
+    # @player_one = session[:player_name_1] 
+    # @player_two = session[:player_name_2] 
+    @player_one = $player_one.name
+    @player_two = $player_two.name
     erb(:attack)
   end
 
