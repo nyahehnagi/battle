@@ -37,7 +37,7 @@ class Battle < Sinatra::Base
   # keeping it as Post for time being as I feel there's an opportunity for some better
   # logic.. regarding how the attack information is rendered
   post '/attack' do
-    $player_two.deduct_hit_points(10)
+    $player_one.attack($player_two)
     redirect('/attack')
   end
 
