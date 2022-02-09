@@ -9,9 +9,6 @@ class Battle < Sinatra::Base
     register Sinatra::Reloader
   end
   
-  $player_one = nil
-  $player_two = nil
-  
   enable :sessions
 
   get '/' do
@@ -32,6 +29,7 @@ class Battle < Sinatra::Base
     # @player_two = session[:player_name_2] 
     @player_one = $player_one.name
     @player_two = $player_two.name
+    @player_two_hp = $player_two.hit_points
     erb(:play)
   end
 
@@ -39,6 +37,7 @@ class Battle < Sinatra::Base
   # keeping it as Post for time being as I feel there's an opportunity for some better
   # logic.. regarding how the attack information is rendered
   post '/attack' do
+    $player_two.deduct_hit_points(10)
     redirect('/attack')
   end
 
@@ -47,6 +46,7 @@ class Battle < Sinatra::Base
     # @player_two = session[:player_name_2] 
     @player_one = $player_one.name
     @player_two = $player_two.name
+    @player_two_hp = $player_two.hit_points
     erb(:attack)
   end
 
